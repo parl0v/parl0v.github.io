@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Filozofski Izazov</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <div id="menu">
+    <h1>Filozofski Izazov</h1>
+    <button id="btn-start">Započni igru</button>
+    <button id="btn-credits">Zasluge</button>
+  </div>
+
+  <div id="difficulty-menu">
+    <h2>Odaberi težinu</h2>
+    <button class="btn-difficulty" data-rounds="5">Laka (5 citata)</button>
+    <button class="btn-difficulty" data-rounds="8">Srednja (8 citata)</button>
+    <button class="btn-difficulty" data-rounds="10">Teška (10 citata)</button>
+    <button id="btn-diff-back">Natrag</button>
+  </div>
+
+  <div id="credits-screen">
+    <h2>Zasluge</h2>
+    <p>Školski projekt <b>"Filozofski Izazov"</b><br/>Autor: <b>Josip Parlov</b><br/><br/><br/><i style="font-size: 14px">fotografije generirane putem ChatGPT-a</i></p>
+    <button id="btn-back">Natrag</button>
+  </div>
+
+  <div class="game-container">
+    <header>
+      <button id="btn-back-menu" class="back-menu">Natrag</button>
+      <h1>Filozofski Izazov</h1>
+      <p class="progress">
+        Runda <span id="round">1</span> od <span id="total-rounds">5</span>
+      </p>
+    </header>
+
+    <main>
+      <div class="avatar left">
+        <img id="left-img" src="" alt=""/>
+        <div class="name" id="left-name"></div>
+      </div>
+      <div class="card">
+        <div class="quote-text" id="quote-text">Učitavanje…</div>
+      </div>
+      <div class="avatar right">
+        <img id="right-img" src="" alt=""/>
+        <div class="name" id="right-name"></div>
+      </div>
+    </main>
+
+    <footer>
+      <button id="btn-left">A</button>
+      <button id="btn-right">B</button>
+      <button id="btn-restart">Nova igra</button>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

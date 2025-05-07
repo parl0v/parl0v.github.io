@@ -1,0 +1,268 @@
+#menu {
+  display: flex;
+}
+#difficulty-menu,
+#credits-screen,
+.game-container {
+  display: none;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Georgia', serif;
+  background: #f0f0f0;
+  overflow: hidden;
+}
+
+#difficulty-menu,
+#credits-screen,
+.game-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #e0f7fa;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #e0f7fa;
+  width: 100vw;
+  height: 100vh;
+}
+
+#menu h1 {
+  font-size: 48px;
+  margin-bottom: 24px;
+}
+
+#menu button {
+  margin: 8px;
+  padding: 14px 28px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background: #8B4513;
+  color: #fff;
+  cursor: pointer;
+}
+
+#credits-screen {
+  z-index: 9;
+}
+
+#menu button,
+#difficulty-menu button,
+#credits-screen button,
+footer button {
+  margin: 8px;
+  padding: 14px 28px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background: #8B4513;
+  color: #fff;
+  cursor: pointer;
+}
+
+#difficulty-menu h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+#credits-screen h2 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+#credits-screen p {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 18px;
+  color: #333;
+}
+
+.game-container {
+  display: none;
+  flex-direction: column;
+  z-index: 5;
+}
+header {
+  position: relative;
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  background: #f5deb3;
+  border-bottom: 2px solid #8B4513;
+}
+header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+header .progress {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.back-menu {
+  position: absolute;
+  top: 35px;
+  left: 35px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  background: #8B4513;
+  color: #fff;
+  cursor: pointer;
+  z-index: 5;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 800px;
+  padding: 0;
+}
+.avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 160px;
+  margin: 0;
+}
+.avatar img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #8B4513;
+}
+.avatar .name {
+  margin-top: 8px;
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+}
+
+.card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  max-width: 80%;
+  padding: 24px;
+  background: #fff;
+  border: 3px solid #8B4513;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.card .quote-text {
+  font-size: 24px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+footer {
+  width: 100%;
+  padding: 30px 12px;
+  text-align: center;
+  background: #f5deb3;
+  border-top: 2px solid #8B4513;
+}
+footer button {
+  margin: 0 30px;
+  padding: 16px 32px;
+  font-size: 20px;
+}
+#btn-restart {
+  display: none;
+  background: #006400;
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 24px;
+  }
+  header .progress {
+    font-size: 16px;
+  }
+  .back-menu {
+    top: 20px;
+    left: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  main {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 10px;
+  }
+  .avatar {
+    width: 120px;
+  }
+  .avatar img {
+    width: 120px;
+    height: 120px;
+  }
+  .avatar .name {
+    font-size: 16px;
+  }
+  .card {
+    position: static;
+    transform: none;
+    width: 90%;
+    margin: 20px auto;
+  }
+  .card .quote-text {
+    font-size: 18px;
+  }
+  footer {
+    padding: 20px 10px;
+    flex-direction: column;
+  }
+  footer button {
+    width: 80%;
+    margin: 10px 0;
+    font-size: 18px;
+    padding: 14px 24px;
+  }
+  #menu h1 {
+    font-size: 36px;
+    text-align: center;
+  }
+  #difficulty-menu h2 {
+    font-size: 22px;
+  }
+  #menu button,
+  #difficulty-menu button,
+  #credits-screen button {
+    font-size: 16px;
+    padding: 12px 20px;
+    width: 80%;
+  }
+  #credits-screen p {
+    padding: 0 20px;
+    font-size: 16px;
+  }
+}

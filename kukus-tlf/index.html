@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="7nfq5EJPXMSYLtGc-hevrUNOHfj5h1xEemMOFFDCVqc"/>
+    <link rel="icon" href="https://www.muzika.hr/wp-content/uploads/2023/04/338435212_926824545173616_1988384525675494715_n.jpg" type="image/png">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>KUKU$ - The Lost Files</title>
+</head>
+<body>
+    <div class="content">
+        <img id="cover" src="https://www.muzika.hr/wp-content/uploads/2023/04/338435212_926824545173616_1988384525675494715_n.jpg" width="300">
+        <h1>KUKU$ - The Lost Files</h1>
+        <div id="songList">
+            <ul>
+                <li onclick="update(this.innerText)" data-song="https://zwtchu2qdww5gg7gjvv3hx4puiuyxjiljh2ny22xvoykwqyz7ujq.arweave.net/zaYj01AdrdMb5k1rs9-PoimLpQtJ9NxrV6uwq0MZ_RM?ext=wav">Vrh</li>
+                <li onclick="update(this.innerText)" data-song="https://jzjmirtcemvpwod5tmok4ijeosy2je4ent3rkdpf4vtzitcx2g5a.arweave.net/TlLERmIjKvs4fZscriEkdLGkk4Rs9xUN5eVnlExX0bo?ext=wav">Bonnie & Clyde</li>
+                <li onclick="update(this.innerText)" data-song="https://zvyywnxz772cg7minbkcbdcm5tj5rj4nmiywt53mkjxi7pycud3a.arweave.net/zXGLNvn_9CN9iGhUIIxM7NPYp41iMWn3bFJuj78CoPY?ext=wav">Nemaš Blage</li>
+                <li onclick="update(this.innerText)" data-song="https://oydavrqydwaa6hog727doe5ix533h32j72rq5qnqgxwnr2aobyzq.arweave.net/dgYKxhgdgA8dxv6-NxOov3ez70n-ow7BsDXs2OgODjM?ext=wav">Tamagotchi</li>
+                <li onclick="update(this.innerText)" data-song="https://e55uxsi4skhs6m2oyxqi7shuenwjolwuztqwiaywo6qarvlv5hea.arweave.net/J3tLyRySjy8zTsXgj8j0I2yXLtTM4WQDFnegCNV16cg?ext=wav">Majka Mog Djeteta</li>
+            </ul>
+            <ul>
+                <li onclick="update(this.innerText)" data-song="https://3nnidf56r4pgvvm5mwbhmdsqhkcqf6m6cltib72m3ec33uilcrya.arweave.net/21qBl76PHmrVnWWCdg5QOoUC-Z4S5oD_TNkFvdELFHA?ext=wav">Na Meti</li>
+                <li onclick="update(this.innerText)" data-song="https://ivtqnh5ndjpuz7mcxa2bioc4la4r3qvgroxjx56733473mg4mwdq.arweave.net/RWcGn60aX0z9grg0FDhcWDkdwqaLrpv33975_bDcZYc?ext=wav">Ko Je Mi Nismo</li>
+                <li onclick="update(this.innerText)" data-song="https://l7iapljlgjbydtzaoxhzv7dcfvhb4ogbgkjz6tmxlieh5froi4ya.arweave.net/X9AHrSsyQ4HPIHXPmvxiLU4eOMEyk59Nl1oIfpYuRzA?ext=wav">NWO</li>
+                <li onclick="update(this.innerText)" data-song="https://qqo3dc2kx4vvigvm424iytiw4g7mkgcrx3r3cfchxngla2aldfua.arweave.net/hB2xi0q_K1QarOa4jE0W4b7FGFG-47EUR7tMsGgLGWg?ext=wav">WOW</li>
+                <li onclick="update(this.innerText)" data-song="https://lui3wx6ndtnkkxwxjodhcqapve5gx6jcr6ezjfnc4npymomzaofa.arweave.net/XRG7X80c2qVe10uGcUAPqTpr-SKPiZSVouNfhjmZA4o?ext=wav">Gang $hit</li>
+            </ul>
+        </div>
+        <audio id="audioPlayer" controls preload="metadata"></audio>
+        <h2 id="currentlyPlaying">Trenutno svira: n/a</h2>
+        <div id="songControls">
+            <button id="playButton">Pusti</button>
+            <button id="pauseButton">Pauziraj</button>
+            <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
+            <div id="progressContainer">
+                <input type="range" id="progressSlider" min="0" value="0">
+                <div id="timeDisplay">0:00 / 0:00</div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2023 Sva prava pridržana autorima pjesama.</p>
+        <p>Izvorni kod: <a href="https://github.com/parl0v/parl0v.github.io" target="_blank">GitHub</a></p>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+</html>
