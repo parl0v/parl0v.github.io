@@ -1,0 +1,174 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #222;
+    color: #fff;
+}
+
+#cover
+{
+    margin-top: 20px;
+}
+
+#songList {
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#songList li {
+    background-color: #353535;
+    border: 1px solid #555;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+#songList ul {
+    background-color: #222;
+    border: 1px solid #555;
+    padding: 10px;
+    cursor: pointer;
+    margin: 10px;
+    width: calc(50% - 20px);
+    list-style: none;
+}
+
+#songList li:hover {
+    background-color: #444;
+}
+
+#audioPlayer {
+    display: none;
+}
+
+button#playButton, button#pauseButton {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button#playButton:hover, button#pauseButton:hover {
+    background-color: #444;
+}
+
+input[type="range"] {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    height: 5px;
+    width: 15%;
+}
+
+#progressSlider {
+    height: 5px;
+    width: 30%;
+    margin-top: 15px;
+}
+
+#timeDisplay {
+    margin-top: 10px;
+}
+
+#progressContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    position: relative;
+    width: 100%;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    min-height: calc(100vh - 60px);
+    padding-bottom: 10px;
+}
+
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+
+    #cover {
+        width: 100;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    #songList ul {
+        padding: 0;
+    }
+
+    #songList li {
+        margin: 6px;
+        background-color: #333;
+        border: 1px solid #555;
+        padding: 5px;
+        cursor: pointer;
+        width: 85%;
+        list-style: none;
+    }
+
+    #audioPlayer {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    #songControls {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button {
+        margin: 10px;
+        padding: 15px;
+        width: 80%;
+    }
+
+    input[type="range"] {
+        background-color: #555;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        height: 15px;
+        width: 80%;
+        margin-top: 10px;
+    }
+
+    #progressSlider {
+        height: 15px;
+        width: 80%;
+    }
+
+    #timeDisplay {
+        font-size: 16px;
+    }
+
+    .content {
+        padding-bottom: 15px;
+    }
+}
