@@ -7,7 +7,6 @@
   display: none;
 }
 
-
 html, body {
   margin: 0;
   padding: 0;
@@ -199,6 +198,82 @@ footer button {
   display: none;
   background: #006400;
 }
+
+#mode-menu {
+  display: none;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: #e0f7fa;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#mode-menu h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+  color: #333;
+}
+#mode-menu button {
+  margin: 8px;
+  padding: 14px 28px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background: #8B4513;
+  color: #fff;
+  cursor: pointer;
+}
+
+#kant-game {
+  display: none;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #e0f7fa;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.kant-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  background: #fff;
+  border: 3px solid #8B4513;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  max-width: 80%;
+}
+.kant-card img {
+  width: 200px;
+  border-radius: 50%;
+  border: 3px solid #8B4513;
+  margin-bottom: 16px;
+}
+.kant-card .quote-text {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+.kant-option {
+  padding: 12px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background: #8B4513;
+  color: #fff;
+  cursor: pointer;
+}
+
 
 @media (max-width: 768px) {
   header h1 {

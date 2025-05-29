@@ -32,11 +32,6 @@
     { "text": "Skepticizam je ključ spoznaje.", "philosopherId": "4" },
     { "text": "Bog je primarna istina.", "philosopherId": "4" },
     { "text": "Pružite mi jasnost i razlučivost i ja ću iz toga izvesti sve istine.", "philosopherId": "4" },
-    { "text": "Čini samo po onoj maksimi za koju možeš htjeti da postane opći zakon.", "philosopherId": "5" },
-    { "text": "Razum je institucija čiji je jedini cilj naučiti nas razmišljati.", "philosopherId": "5" },
-    { "text": "Zvjezdano nebo iznad mene i moralni zakon u meni ispunjavaju me divljenjem.", "philosopherId": "5" },
-    { "text": "Nikada ne postupaj s ljudstvom samo kao sredstvom, nego uvijek i kao svrsi.", "philosopherId": "5" },
-    { "text": "Um nije spremište podataka nego struktura.", "philosopherId": "5" },
     { "text": "Bog je mrtav.", "philosopherId": "6" },
     { "text": "Što me ne ubije, čini me jačim.", "philosopherId": "6" },
     { "text": "Postoje dva načina življenja: ili smatraš da ništa nije čudo, ili da je sve čudo.", "philosopherId": "6" },
@@ -61,6 +56,14 @@
     { "text": "Nije važno koliko polako ideš, dokle god ne staješ.", "philosopherId": "10" },
     { "text": "Poučavanje bez razmišljanja je beskorisno, a razmišljanje bez poučavanja opasno.", "philosopherId": "10" },
     { "text": "Postavljati pitanja znak je intelekta.", "philosopherId": "10" },
-    { "text": "Ne čini drugome ono što ne želiš sebi.", "philosopherId": "10" }
+    { "text": "Ne čini drugome ono što ne želiš sebi.", "philosopherId": "10" },
+	{ "text": "Dvije stvari ispunjavaju dušu uvijek novim i sve većim divljenjem i strahopoštovanjem što se više i ustrajnije mišljenje njima bavi: zvjezdano nebo nada mnom i moralni zakon u meni.", "philosopherId": "5" },
+	{ "text": "Djeluj tako da maksima tvoje volje u svako doba ujedno može važiti kao princip općeg zakonodavstva.", "philosopherId": "5" },
+	{ "text": "Dužnost je nužnost djelovanja iz poštivanja prema moralnom zakonu.", "philosopherId": "5" },
+	{ "text": "Pojam dužnosti zahtjeva dakle kod radnje-objektivno-suglasnost za zakonom, ali kod njene maksime-subjektivno-štovanje za zakon kao jedini način određenja volje pomoću njega.", "philosopherId": "5" },
+	{ "text": "Činiti dobro gdje se može, jest dužnost.", "philosopherId": "5" },
+	{ "text": "Naime bez načela dobre volje mogu postati nadasve opasnima, a hladna krv zlikovaca čini ga ne samo daleko opasnijima nego u našim očima još i neposredno vrednijim prezira nego što bismo ga smatrali bez nje.", "philosopherId": "5" },
+	{ "text": "Umjerenost u afektima i strastima, svladavanje samoga sebe i trijezno razmišljanje ne samo da su u raznolikome pogledu dobri, nego se čini da čak sačinjavaju jedan dio unutrašnje vrijednosti osobe.", "philosopherId": "5" },
+	{ "text": "Nigdje na svijetu, štoviše, uopće ni izvan njega, ne da se zamisliti ništa što bi se bez ograničenja moglo smatrati kao dobro osim dobre volje.", "philosopherId": "5" }
   ]
 }
