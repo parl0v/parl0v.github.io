@@ -21,10 +21,82 @@ const btnRestart      = document.getElementById('btn-restart');
 const roundSpan       = document.getElementById('round');
 const totalRoundsSpan = document.getElementById('total-rounds');
 const quoteText       = document.getElementById('quote-text');
+const modeMenu    = document.getElementById('mode-menu');
+const btnModeQuiz = document.getElementById('btn-mode-quiz');
+const btnModeKant = document.getElementById('btn-mode-kant');
+const btnModeBack = document.getElementById('btn-mode-back');
+const kantGame       = document.getElementById('kant-game');
+const btnBackKant    = document.getElementById('btn-back-kant');
+const kantQuoteEl    = document.getElementById('kant-quote');
+const kantOptions    = Array.from(document.querySelectorAll('.kant-option'));
+let kantQuotes       = [];
+let currentKant      = null;
+let correctWord      = '';
+
+btnModeKant.addEventListener('click', async () => {
+  modeMenu.style.display = 'none';
+  diffMenu.style.display = creditsScreen.style.display = gameContainer.style.display = 'none';
+  quizData = await loadData();
+  kantQuotes = quizData.quotes.filter(q => q.philosopherId === '5');
+  startKantGame();
+});
+
+btnBackKant.addEventListener('click', () => {
+  kantGame.style.display = 'none';
+  modeMenu.style.display = 'flex';
+});
+
+function startKantGame() {
+  kantGame.style.display = 'flex';
+  generateKantQuestion();
+}
+
+function generateKantQuestion() {
+  const idx = Math.floor(Math.random() * kantQuotes.length);
+  currentKant = kantQuotes[idx];
+  const words = currentKant.text.match(/\b\w{5,}\b/g);
+  correctWord = words[Math.floor(Math.random() * words.length)];
+  const opts = new Set([ correctWord ]);
+  while (opts.size < 3) {
+    const w = words[Math.floor(Math.random() * words.length)];
+    opts.add(w);
+  }
+  const shuffled = Array.from(opts).sort(() => Math.random() - 0.5);
+  const blanked = currentKant.text.replace(new RegExp(`\\b${correctWord}\\b`), '_____');
+  kantQuoteEl.textContent = blanked;
+  kantOptions.forEach((btn, i) => {
+    btn.textContent = shuffled[i];
+    btn.onclick = () => handleKantAnswer(shuffled[i]);
+  });
+}
+
+function handleKantAnswer(chosen) {
+  if (chosen === correctWord) {
+    alert('Točno!');
+  } else {
+    alert(`Netočno, točan odgovor je "${correctWord}".`);
+  }
+  generateKantQuestion();
+}
 
 btnStart.addEventListener('click', () => {
   menu.style.display     = 'none';
+  modeMenu.style.display = 'flex';
+});
+
+btnModeQuiz.addEventListener('click', () => {
+  modeMenu.style.display = 'none';
   diffMenu.style.display = 'flex';
+});
+
+btnModeBack.addEventListener('click', () => {
+  modeMenu.style.display = 'none';
+  menu.style.display     = 'flex';
+});
+
+btnStart.addEventListener('click', () => {
+  menu.style.display     = 'none';
+  modeMenu.style.display = 'flex';
 });
 
 btnDiffBack.addEventListener('click', () => {
