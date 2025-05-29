@@ -32,6 +32,7 @@ const kantOptions    = Array.from(document.querySelectorAll('.kant-option'));
 let kantQuotes       = [];
 let currentKant      = null;
 let correctWord      = '';
+let remainingKantQuotes = [];
 
 btnModeKant.addEventListener('click', async () => {
   modeMenu.style.display = 'none';
@@ -47,28 +48,46 @@ btnBackKant.addEventListener('click', () => {
 });
 
 function startKantGame() {
+  remainingKantQuotes = [...kantQuotes];
   kantGame.style.display = 'flex';
   generateKantQuestion();
 }
 
+
 function generateKantQuestion() {
-  const idx = Math.floor(Math.random() * kantQuotes.length);
-  currentKant = kantQuotes[idx];
-  const words = currentKant.text.match(/\b\w{5,}\b/g);
+  if (remainingKantQuotes.length === 0) {
+    alert('Bravo – prošao si kroz sve citate! Vraćam te na početni zaslon.');
+    kantGame.style.display = 'none';
+    menu.style.display = 'flex';
+    return;
+  }
+
+  const idx = Math.floor(Math.random() * remainingKantQuotes.length);
+  currentKant = remainingKantQuotes.splice(idx, 1)[0];
+  const words = currentKant.text.match(/\b\p{L}{5,}\b/gu);
+  if (!words || words.length === 0) {
+    return generateKantQuestion();
+  }
   correctWord = words[Math.floor(Math.random() * words.length)];
-  const opts = new Set([ correctWord ]);
+  const opts = new Set([correctWord]);
   while (opts.size < 3) {
-    const w = words[Math.floor(Math.random() * words.length)];
-    opts.add(w);
+    opts.add(words[Math.floor(Math.random() * words.length)]);
   }
   const shuffled = Array.from(opts).sort(() => Math.random() - 0.5);
-  const blanked = currentKant.text.replace(new RegExp(`\\b${correctWord}\\b`), '_____');
+  const blanked = currentKant.text.replace(
+    new RegExp(`\\b${correctWord}\\b`, 'u'),
+    '_____'
+  );
   kantQuoteEl.textContent = blanked;
   kantOptions.forEach((btn, i) => {
     btn.textContent = shuffled[i];
-    btn.onclick = () => handleKantAnswer(shuffled[i]);
+    btn.onclick = () => {
+      handleKantAnswer(shuffled[i]);
+    };
   });
 }
+
+
 
 function handleKantAnswer(chosen) {
   if (chosen === correctWord) {
