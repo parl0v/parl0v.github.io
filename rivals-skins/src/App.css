@@ -1,0 +1,780 @@
+/* ─── Layout ─────────────────────────────────────────────────── */
+.app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 15% 15%, rgba(79, 124, 255, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 85%, rgba(180, 0, 255, 0.05) 0%, transparent 55%),
+    #060810;
+}
+
+/* ─── Main Scroll Area ───────────────────────────────────────── */
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 36px 40px 60px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.main::-webkit-scrollbar { width: 5px; }
+.main::-webkit-scrollbar-track { background: transparent; }
+.main::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 3px; }
+
+/* ─── Header ─────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.header-title h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  color: #f0f4ff;
+  line-height: 1.1;
+}
+
+.header-title h1 .accent { color: #5b8fff; }
+
+.subtitle {
+  margin: 5px 0 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 400;
+}
+
+/* ─── Rarity Stats Chips ─────────────────────────────────────── */
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.stat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.stat-chip:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.stat-chip.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.stat-chip strong {
+  font-weight: 700;
+}
+
+.stat-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Rarity dot colors */
+.rarity-chip-Common   .stat-dot { background: #9ca3af; }
+.rarity-chip-Rare     .stat-dot { background: #3b9eff; }
+.rarity-chip-Legendary .stat-dot { background: #ff7043; }
+.rarity-chip-Mythical  .stat-dot { background: #bf40ff; }
+.rarity-chip-Special   .stat-dot { background: #f59e0b; }
+.rarity-chip-Glorious  .stat-dot { background: #ec4899; }
+.rarity-chip-Unobtainable .stat-dot { background: #64748b; }
+
+.rarity-chip-Common.active    { border-color: #9ca3af; color: #c0c6d0; }
+.rarity-chip-Rare.active      { border-color: rgba(59,158,255,0.5); color: #3b9eff; }
+.rarity-chip-Legendary.active { border-color: rgba(255,112,67,0.5); color: #ff7043; }
+.rarity-chip-Mythical.active  { border-color: rgba(191,64,255,0.5); color: #bf40ff; }
+.rarity-chip-Special.active   { border-color: rgba(245,158,11,0.5); color: #f59e0b; }
+.rarity-chip-Glorious.active  { border-color: rgba(236,72,153,0.5); color: #ec4899; }
+.rarity-chip-Unobtainable.active { border-color: rgba(100,116,139,0.5); color: #94a3b8; }
+
+/* ─── Controls ───────────────────────────────────────────────── */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  align-items: center;
+}
+
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 9px 34px 9px 36px;
+}
+
+.clear-input-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  font-size: 17px;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.clear-input-btn:hover { color: rgba(255, 255, 255, 0.75); }
+
+.controls input,
+.controls select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: white;
+  padding: 9px 13px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  transition: border-color 0.18s, background 0.18s;
+  /* Force native dropdown to render dark on Windows/Chrome */
+  color-scheme: dark;
+}
+
+.controls input::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.controls input:focus,
+.controls select:focus {
+  outline: none;
+  border-color: rgba(91, 143, 255, 0.55);
+  background: rgba(91, 143, 255, 0.07);
+}
+
+.controls select {
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.35)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+  background-size: 15px;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Dark dropdown list (works on Chrome/Edge on Windows) */
+.controls select option {
+  background-color: #141720;
+  color: #e2e8f0;
+}
+
+.btn-random {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  background: linear-gradient(135deg, #4f7cff 0%, #7c3aed 100%);
+  border: none;
+  border-radius: 9px;
+  color: white;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.18s, transform 0.18s, box-shadow 0.18s;
+  white-space: nowrap;
+}
+
+.btn-random:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(79, 124, 255, 0.35);
+}
+
+.btn-random:active { transform: translateY(0); }
+
+/* ─── Results Bar ────────────────────────────────────────────── */
+.results-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 22px;
+}
+
+.results-info strong { color: rgba(255, 255, 255, 0.65); }
+
+.reset-filters-btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.4);
+  padding: 2px 9px;
+  border-radius: 5px;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.reset-filters-btn:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ─── Skin Grid ──────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 16px;
+}
+
+/* ─── Skin Card ──────────────────────────────────────────────── */
+.card {
+  background: rgba(255, 255, 255, 0.033);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 15px;
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: opacity 0.4s ease, transform 0.18s ease;
+  transform-style: preserve-3d;
+  opacity: 0;
+  transform: scale(0.94) translateY(8px);
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.card.show {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* inner shine overlay */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 15px;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.07) 0%,
+    transparent 55%
+  );
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.card:hover::after { opacity: 1; }
+
+/* ─── Card Image ─────────────────────────────────────────────── */
+.card-img-wrap {
+  width: 100%;
+  height: 145px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.img-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.07) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerAnim 1.6s ease-in-out infinite;
+}
+
+@keyframes shimmerAnim {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.card img {
+  max-width: 90%;
+  max-height: 90%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+  display: block;
+}
+
+.img-error-text {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.18);
+  text-align: center;
+  padding: 10px;
+}
+
+/* ─── Card Info ──────────────────────────────────────────────── */
+.card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  flex: 1;
+}
+
+.rarity-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* badge colors */
+.badge-Common       { background: rgba(156,163,175,0.12); color: #9ca3af; }
+.badge-Rare         { background: rgba(59,158,255,0.14); color: #3b9eff; }
+.badge-Legendary    { background: rgba(255,112,67,0.14); color: #ff7043; }
+.badge-Mythical     { background: rgba(191,64,255,0.14); color: #bf40ff; }
+.badge-Special      { background: rgba(245,158,11,0.14); color: #f59e0b; }
+.badge-Glorious     { background: rgba(236,72,153,0.14); color: #ec4899; }
+.badge-Unobtainable { background: rgba(100,116,139,0.12); color: #64748b; }
+
+.card-name {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #f0f4ff;
+  line-height: 1.3;
+}
+
+.card-weapon {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Equip Button ───────────────────────────────────────────── */
+.equip-btn {
+  width: 100%;
+  padding: 7px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  flex-shrink: 0;
+}
+
+.equip-btn:hover {
+  background: rgba(91, 143, 255, 0.22);
+  border-color: rgba(91, 143, 255, 0.45);
+  color: #fff;
+}
+
+/* ─── Rarity Glows ───────────────────────────────────────────── */
+.rarity-Common {
+  border-color: rgba(156, 163, 175, 0.18);
+}
+
+.rarity-Rare {
+  border-color: rgba(59, 158, 255, 0.35);
+  animation: glowBlue 3.5s ease-in-out infinite;
+}
+
+.rarity-Legendary {
+  border-color: rgba(255, 112, 67, 0.42);
+  animation: glowOrange 2.8s ease-in-out infinite;
+}
+
+.rarity-Mythical {
+  border-color: rgba(191, 64, 255, 0.45);
+  animation: glowPurple 2.4s ease-in-out infinite;
+}
+
+.rarity-Special {
+  border-color: rgba(245, 158, 11, 0.45);
+  animation: glowGold 3s ease-in-out infinite;
+}
+
+.rarity-Glorious {
+  border-color: transparent;
+  animation: glowRainbow 2.8s linear infinite;
+}
+
+.rarity-Unobtainable {
+  border-color: rgba(100, 116, 139, 0.35);
+  animation: glowSlate 4.5s ease-in-out infinite;
+}
+
+@keyframes glowBlue {
+  0%, 100% { box-shadow: 0 0 12px rgba(59, 158, 255, 0.18); }
+  50%       { box-shadow: 0 0 26px rgba(59, 158, 255, 0.42), 0 0 50px rgba(59, 158, 255, 0.1); }
+}
+
+@keyframes glowOrange {
+  0%, 100% { box-shadow: 0 0 12px rgba(255, 112, 67, 0.22); }
+  50%       { box-shadow: 0 0 28px rgba(255, 112, 67, 0.52), 0 0 55px rgba(255, 112, 67, 0.14); }
+}
+
+@keyframes glowPurple {
+  0%, 100% { box-shadow: 0 0 14px rgba(191, 64, 255, 0.28); }
+  50%       { box-shadow: 0 0 32px rgba(191, 64, 255, 0.62), 0 0 65px rgba(191, 64, 255, 0.18); }
+}
+
+@keyframes glowGold {
+  0%, 100% { box-shadow: 0 0 12px rgba(245, 158, 11, 0.22); }
+  50%       { box-shadow: 0 0 28px rgba(245, 158, 11, 0.5), 0 0 55px rgba(245, 158, 11, 0.12); }
+}
+
+@keyframes glowRainbow {
+  0%   { box-shadow: 0 0 22px rgba(255, 0, 128, 0.5);  border-color: #ff0080; }
+  16%  { box-shadow: 0 0 22px rgba(255, 119, 0, 0.5);  border-color: #ff7700; }
+  33%  { box-shadow: 0 0 22px rgba(0, 230, 118, 0.5);  border-color: #00e676; }
+  50%  { box-shadow: 0 0 22px rgba(0, 145, 255, 0.5);  border-color: #0091ff; }
+  66%  { box-shadow: 0 0 22px rgba(138, 43, 226, 0.5); border-color: #8a2be2; }
+  83%  { box-shadow: 0 0 22px rgba(255, 0, 200, 0.5);  border-color: #ff00c8; }
+  100% { box-shadow: 0 0 22px rgba(255, 0, 128, 0.5);  border-color: #ff0080; }
+}
+
+@keyframes glowSlate {
+  0%, 100% { box-shadow: 0 0 8px rgba(100, 116, 139, 0.15); }
+  50%       { box-shadow: 0 0 20px rgba(100, 116, 139, 0.35), inset 0 0 25px rgba(255, 255, 255, 0.02); }
+}
+
+/* ─── Empty State ────────────────────────────────────────────── */
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 80px 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 15px;
+}
+
+/* ─── Config Panel (Right Sidebar) ──────────────────────────── */
+.config-panel {
+  width: 370px;
+  flex-shrink: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px 18px 40px;
+  border-left: 1px solid rgba(255, 255, 255, 0.055);
+  background: rgba(6, 8, 16, 0.96);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.07) transparent;
+}
+
+.config-panel::-webkit-scrollbar { width: 4px; }
+.config-panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.07); border-radius: 2px; }
+
+/* ─── Config Header ──────────────────────────────────────────── */
+.config-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.config-header h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #eef2ff;
+  letter-spacing: -0.2px;
+}
+
+.equipped-pill {
+  background: rgba(91, 143, 255, 0.18);
+  color: #7aabff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(91, 143, 255, 0.28);
+  white-space: nowrap;
+}
+
+/* ─── Config Code Block ──────────────────────────────────────── */
+.config-code {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  border-radius: 10px;
+  padding: 13px 12px;
+  font-size: 11px;
+  line-height: 1.75;
+  color: #9ecbff;
+  white-space: pre;
+  overflow-x: auto;
+  margin: 0;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
+  max-height: 260px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.06) transparent;
+}
+
+.config-code::-webkit-scrollbar { width: 3px; height: 3px; }
+.config-code::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius: 2px; }
+
+/* ─── Config Action Buttons ──────────────────────────────────── */
+.config-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-copy {
+  flex: 1;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #4f7cff 0%, #7c3aed 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.18s, transform 0.18s;
+}
+
+.btn-copy:hover { opacity: 0.88; }
+.btn-copy:active { transform: scale(0.98); }
+.btn-copy.copied {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.btn-download {
+  padding: 8px 11px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.22);
+  border-radius: 8px;
+  color: rgba(74, 222, 128, 0.9);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.18s;
+  white-space: nowrap;
+}
+
+.btn-download:hover { background: rgba(34, 197, 94, 0.2); }
+
+.btn-clear-all {
+  padding: 8px 11px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  border-radius: 8px;
+  color: rgba(248, 113, 113, 0.9);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.18s;
+  white-space: nowrap;
+}
+
+.btn-clear-all:hover { background: rgba(239, 68, 68, 0.2); }
+
+.save-hint {
+  margin: 0;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.25);
+  line-height: 1.5;
+}
+
+.save-hint code {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  word-break: break-all;
+}
+
+/* ─── Import Toggle / Section ────────────────────────────────── */
+.btn-import-toggle {
+  width: 100%;
+  padding: 7px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.btn-import-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.import-section {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  animation: fadeSlideIn 0.2s ease;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.import-section textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 9px 10px;
+  color: #c0d0ff;
+  font-size: 10.5px;
+  resize: vertical;
+  min-height: 90px;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  transition: border-color 0.18s;
+}
+
+.import-section textarea:focus {
+  outline: none;
+  border-color: rgba(91, 143, 255, 0.4);
+}
+
+.btn-apply-import {
+  width: 100%;
+  padding: 8px;
+  background: rgba(91, 143, 255, 0.13);
+  border: 1px solid rgba(91, 143, 255, 0.28);
+  border-radius: 8px;
+  color: #7aabff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.btn-apply-import:hover { background: rgba(91, 143, 255, 0.24); }
+
+/* ─── Equipped Slots ─────────────────────────────────────────── */
+.slots-section { display: flex; flex-direction: column; gap: 6px; }
+
+.slots-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.28);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 0 0 2px;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 9px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.slot.slot-empty {
+  background: rgba(255, 255, 255, 0.018);
+  border-color: rgba(255, 255, 255, 0.038);
+}
+
+.slot.slot-equipped {
+  background: rgba(91, 143, 255, 0.08);
+  border-color: rgba(91, 143, 255, 0.16);
+}
+
+.slot-weapon {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.slot-skin {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.25);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.slot.slot-equipped .slot-skin {
+  color: #7aabff;
+  font-weight: 500;
+}
+
+/* Per-slot clear (×) button */
+.slot-clear-btn {
+  flex-shrink: 0;
+  margin-left: 4px;
+  padding: 0 4px;
+  background: none;
+  border: none;
+  color: rgba(248, 113, 113, 0.55);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+  display: flex;
+  align-items: center;
+}
+
+.slot-clear-btn:hover {
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+/* ─── Divider ────────────────────────────────────────────────── */
+.config-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.055);
+  border: none;
+  margin: 0;
+}
