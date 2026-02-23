@@ -50,7 +50,7 @@ export default function App() {
   const [copySuccess, setCopySuccess] = useState(false);
 
   useEffect(() => {
-    fetch("/skins.json")
+    fetch("/rivals-skins/skins.json")
       .then((r) => r.json())
       .then(setSkins);
   }, []);
