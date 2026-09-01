@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — LudusCtrl</title>
+<meta name="description" content="LudusCtrl privacy policy. The app collects no personal data.">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1d23;
+    --muted: #5c6470;
+    --rule: #e2e5ea;
+    --accent: #1b6fc4;
+    --card: #f5f7fa;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b0e14;
+      --fg: #e8edf5;
+      --muted: #8a94a6;
+      --rule: #232a36;
+      --accent: #2e9bff;
+      --card: #141922;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 3rem 1.25rem 5rem;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.65 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  main { max-width: 42rem; margin: 0 auto; }
+  h1 { font-size: 1.8rem; line-height: 1.2; margin: 0 0 .35rem; }
+  h2 {
+    font-size: 1.1rem; margin: 2.4rem 0 .6rem;
+    padding-top: 1.4rem; border-top: 1px solid var(--rule);
+  }
+  .updated { color: var(--muted); font-size: .9rem; margin: 0 0 2rem; }
+  .lede {
+    background: var(--card); border-left: 3px solid var(--accent);
+    padding: 1rem 1.15rem; border-radius: 0 6px 6px 0; margin: 0 0 1.5rem;
+  }
+  .lede strong { display: block; font-size: 1.05rem; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .94rem; }
+  th, td { text-align: left; padding: .6rem .7rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  code {
+    background: var(--card); padding: .12em .4em; border-radius: 4px;
+    font: .88em ui-monospace, Consolas, monospace;
+  }
+  a { color: var(--accent); }
+  footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .9rem; }
+</style>
+
+<main>
+  <h1>Privacy Policy — LudusCtrl</h1>
+  <p class="updated">Last updated: 1 September 2026</p>
+
+  <p class="lede">
+    <strong>LudusCtrl does not collect, store, transmit, or share any personal data.</strong>
+    No accounts, no analytics, no advertising, no crash reporting, no tracking,
+    and no third-party SDKs of any kind.
+  </p>
+
+  <p>
+    LudusCtrl is developed by Josip Parlov. This policy explains what the app
+    does and does not do with your data. It is short because the app collects
+    nothing.
+  </p>
+
+  <h2>What the app does</h2>
+  <p>
+    LudusCtrl forwards input from a gamepad paired to your device over Bluetooth
+    to a computer on your own local network. To do this it:
+  </p>
+  <ul>
+    <li>Reads button and stick input from a gamepad you have paired, using Android's standard input APIs.</li>
+    <li>Sends that input as UDP packets to an IP address on your local network, either discovered automatically or typed in by you.</li>
+    <li>Listens for a discovery broadcast from the receiver program running on your computer.</li>
+  </ul>
+  <p>
+    All of this traffic stays on your local network. Nothing is sent to the
+    developer, and nothing is sent to any internet server.
+  </p>
+
+  <h2>Data stored on your device</h2>
+  <p>
+    The app saves the last IP address and port you used, and whether you enabled
+    dim-screen mode, so you do not have to set them again. This is stored only in
+    the app's private storage on your device and is removed when you uninstall
+    the app. It is never transmitted anywhere.
+  </p>
+
+  <h2>Permissions</h2>
+  <table>
+    <tr><th>Permission</th><th>Why it is needed</th></tr>
+    <tr>
+      <td><code>INTERNET</code></td>
+      <td>Opens a UDP socket to send input to your PC on the local network. Despite the name, Android requires this for any network socket, including local-only ones.</td>
+    </tr>
+    <tr>
+      <td><code>ACCESS_WIFI_STATE</code></td>
+      <td>Reads the local network address so the app can find the receiver.</td>
+    </tr>
+    <tr>
+      <td><code>CHANGE_WIFI_MULTICAST_STATE</code></td>
+      <td>Holds a multicast lock so discovery broadcasts are not dropped while the Wi-Fi radio is in power-save mode.</td>
+    </tr>
+  </table>
+  <p>
+    The app requests no location, contacts, storage, camera, or microphone
+    permissions.
+  </p>
+
+  <h2>Children</h2>
+  <p>
+    The app is not directed at children and collects no data from anyone,
+    regardless of age.
+  </p>
+
+  <h2>Third parties</h2>
+  <p>
+    None. The app contains no third-party analytics, advertising, or tracking
+    libraries.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>
+    If this policy changes, the updated version will be published at this same
+    address with a revised date above. Any future version that introduces data
+    collection will say so explicitly.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about this policy:
+    <a href="mailto:josipparlov@protonmail.com">josipparlov@protonmail.com</a>
+  </p>
+
+  <footer>
+    LudusCtrl is not affiliated with, endorsed by, or sponsored by Sony
+    Interactive Entertainment, Microsoft, or Nintendo. Product names are used
+    only to identify compatible hardware.
+  </footer>
+</main>
