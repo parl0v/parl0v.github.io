@@ -1,5 +1,7 @@
 <!doctype html>
 <!--
+  Keep in sync with docs/PRIVACY.md.
+
   Accurate while the app ships with no ads and no third-party SDKs. Adding an
   ad SDK falsifies the "collects nothing" and "no third parties" claims below,
   and Play cross-checks the Data Safety declaration against the uploaded
@@ -11,7 +13,7 @@
 <link rel="icon" href="/ludusctrl/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/ludusctrl/apple-touch-icon.png">
 <title>Privacy Policy — LudusCtrl</title>
-<meta name="description" content="LudusCtrl privacy policy. The app collects no personal data.">
+<meta name="description" content="LudusCtrl privacy policy. The app and the Windows receiver collect no personal data.">
 <style>
   :root {
     --bg: #ffffff;
@@ -57,6 +59,7 @@
   code {
     background: var(--card); padding: .12em .4em; border-radius: 4px;
     font: .88em ui-monospace, Consolas, monospace;
+    overflow-wrap: anywhere;
   }
   a { color: var(--accent); }
   footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .9rem; }
@@ -64,21 +67,23 @@
 
 <main>
   <h1>Privacy Policy — LudusCtrl</h1>
-  <p class="updated">Last updated: 1 September 2026</p>
+  <p class="updated">Last updated: 23 September 2026</p>
 
   <p class="lede">
-    <strong>LudusCtrl does not collect, store, transmit, or share any personal data.</strong>
+    <strong>LudusCtrl does not collect, transmit, or share any personal data.</strong>
     No accounts, no analytics, no advertising, no crash reporting, no tracking,
-    and no third-party SDKs of any kind.
+    and no third-party SDKs of any kind. The only way anything reaches the
+    developer is if you choose to send a problem report by email, described
+    below.
   </p>
 
   <p>
-    LudusCtrl is developed by Josip Parlov. This policy explains what the app
-    does and does not do with your data. It is short because the app collects
-    nothing.
+    LudusCtrl is developed by Josip Parlov. This policy covers the LudusCtrl
+    Android app and the LudusCtrl receiver for Windows, and explains what they
+    do and do not do with your data. It is short because they collect nothing.
   </p>
 
-  <h2>What the app does</h2>
+  <h2>What the Android app does</h2>
   <p>
     LudusCtrl forwards input from a gamepad paired to your device over Bluetooth
     to a computer on your own local network. To do this it:
@@ -95,13 +100,66 @@
 
   <h2>Data stored on your device</h2>
   <p>
-    The app saves the last IP address and port you used, and whether you enabled
-    dim-screen mode, so you do not have to set them again. This is stored only in
-    the app's private storage on your device and is removed when you uninstall
-    the app. It is never transmitted anywhere.
+    The app saves the last receiver address and port you used, and whether you
+    enabled dim-screen mode, so you do not have to set them again. This is
+    stored only in the app's private storage on your device. It is
+    <strong>not</strong> included in Android's cloud or device-to-device backups
+    (the app turns backup off), it is removed when you uninstall the app, and
+    it is never transmitted anywhere.
   </p>
 
-  <h2>Permissions</h2>
+  <h2>Reporting a problem</h2>
+  <p>
+    If you tap <strong>Report a problem</strong>, the app opens your own email
+    app with a pre-filled message to
+    <a href="mailto:josipparlov@protonmail.com">josipparlov@protonmail.com</a>.
+    The message contains:
+  </p>
+  <ul>
+    <li>the app version;</li>
+    <li>your device's manufacturer and model, and its Android version;</li>
+    <li>the connected controller's name, its vendor and product IDs, and the button layout the app detected;</li>
+    <li>the connection status and the measured round-trip time;</li>
+    <li>the receiver address you are connecting to, which is an address on your local network (for example <code>192.168.1.20:45989</code>).</li>
+  </ul>
+  <p>
+    You can read and change the message before sending it.
+    <strong>Nothing is sent unless you send it yourself</strong> from your
+    email app. If your device has no email app, the report is copied to the
+    clipboard instead, and again goes nowhere unless you paste and send it.
+  </p>
+  <p>
+    A report you send is used only to look into the problem and reply to you,
+    and is not shared with anyone. You can ask for it to be deleted at the same
+    address.
+  </p>
+
+  <h2>The Windows receiver</h2>
+  <p>
+    The receiver runs on your computer and accepts controller input only from
+    your local network. It sends nothing to the developer or to any internet
+    server.
+  </p>
+  <p>It keeps its files in <code>%LOCALAPPDATA%\LudusCtrl</code> on your PC:</p>
+  <ul>
+    <li><strong>Settings</strong> (<code>settings.json</code>), such as whether the browser client is on.</li>
+    <li><strong>A log file</strong> (<code>ludusctrl.log</code>, kept to a few megabytes). It records what the receiver did, such as starting up, connections and errors, and can include the local network addresses of devices that connected. It exists so a problem can be diagnosed after the fact. It never leaves your PC; if you want to include it in a problem report, attaching it is up to you.</li>
+    <li><strong>The browser client's certificate</strong>, described next.</li>
+  </ul>
+
+  <h2>The browser client</h2>
+  <p>
+    The receiver can optionally serve a web page on your local network, so a
+    phone without the app (an iPhone, for example) can send controller input
+    from its browser. It is off unless you turn it on.
+  </p>
+  <ul>
+    <li>The page is served over HTTPS with a <strong>self-signed certificate that is created on your PC</strong> the first time the browser client is used and stored in the folder above. No certificate authority or other outside service is involved.</li>
+    <li>Each session uses a <strong>random access token</strong>, part of the address the receiver shows you. Only a browser that has that address can send input.</li>
+    <li>The page loads nothing from the internet and sends controller input only to your PC.</li>
+  </ul>
+
+  <h2>Permissions (Android)</h2>
   <table>
     <tr><th>Permission</th><th>Why it is needed</th></tr>
     <tr>
@@ -109,12 +167,16 @@
       <td>Opens a UDP socket to send input to your PC on the local network. Despite the name, Android requires this for any network socket, including local-only ones.</td>
     </tr>
     <tr>
-      <td><code>ACCESS_WIFI_STATE</code></td>
-      <td>Reads the local network address so the app can find the receiver.</td>
+      <td><code>ACCESS_NETWORK_STATE</code></td>
+      <td>Watches the Wi-Fi network so the connection can be tied to it and stop cleanly when it drops.</td>
     </tr>
     <tr>
       <td><code>CHANGE_WIFI_MULTICAST_STATE</code></td>
       <td>Holds a multicast lock so discovery broadcasts are not dropped while the Wi-Fi radio is in power-save mode.</td>
+    </tr>
+    <tr>
+      <td><code>WAKE_LOCK</code></td>
+      <td>Keeps Wi-Fi in its low-latency mode while a connection is running.</td>
     </tr>
   </table>
   <p>
@@ -130,8 +192,10 @@
 
   <h2>Third parties</h2>
   <p>
-    None. The app contains no third-party analytics, advertising, or tracking
-    libraries.
+    None. Neither the app nor the receiver contains third-party analytics,
+    advertising, or tracking libraries. A problem report you choose to send
+    passes through your own email provider and the developer's (Proton), as
+    any email does.
   </p>
 
   <h2>Changes to this policy</h2>
