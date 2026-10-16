@@ -67,7 +67,7 @@
 
 <main>
   <h1>Privacy Policy — LudusCtrl</h1>
-  <p class="updated">Last updated: 23 September 2026</p>
+  <p class="updated">Last updated: 16 October 2026</p>
 
   <p class="lede">
     <strong>LudusCtrl does not collect, transmit, or share any personal data.</strong>
@@ -92,6 +92,7 @@
     <li>Reads button and stick input from a gamepad you have paired, using Android's standard input APIs.</li>
     <li>Sends that input as UDP packets to an IP address on your local network, either discovered automatically or typed in by you.</li>
     <li>Listens for a discovery broadcast from the receiver program running on your computer.</li>
+    <li>The first time it links to a computer, pairs with it: the two exchange keys so that only your phone can control that computer, and the app sends your device's maker and model (for example &ldquo;Google Pixel 8&rdquo;) so the computer can show which phone is asking. You confirm the pairing on the computer.</li>
   </ul>
   <p>
     All of this traffic stays on your local network. Nothing is sent to the
@@ -101,7 +102,11 @@
   <h2>Data stored on your device</h2>
   <p>
     The app saves the last receiver address and port you used, and whether you
-    enabled dim-screen mode, so you do not have to set them again. This is
+    enabled dim-screen mode, so you do not have to set them again. For each
+    computer you pair with, it also keeps a random ID for your phone, the
+    computer's random ID, address and port, the key created during pairing,
+    the date you paired, and a link counter. You can remove a computer with
+    <strong>Paired PCs</strong> &gt; <strong>Forget</strong>. All of this is
     stored only in the app's private storage on your device. It is
     <strong>not</strong> included in Android's cloud or device-to-device backups
     (the app turns backup off), it is removed when you uninstall the app, and
@@ -144,6 +149,7 @@
   <ul>
     <li><strong>Settings</strong> (<code>settings.json</code>), such as whether the browser client is on.</li>
     <li><strong>A log file</strong> (<code>ludusctrl.log</code>, kept to a few megabytes). It records what the receiver did, such as starting up, connections and errors, and can include the local network addresses of devices that connected. It exists so a problem can be diagnosed after the fact. It never leaves your PC; if you want to include it in a problem report, attaching it is up to you.</li>
+    <li><strong>Paired phones</strong> (<code>pairing.json</code>): a random ID for the computer and, for each phone you allowed, its random ID, maker and model, the key created during pairing, the date you paired and a link counter. The file is readable only by your Windows account. Remove a phone in the receiver's window (<strong>Paired phones</strong> &gt; <strong>Remove</strong>) or with <code>--forget</code>.</li>
     <li><strong>The browser client's certificate</strong>, described next.</li>
   </ul>
 
@@ -201,7 +207,9 @@
   <h2>Changes to this policy</h2>
   <p>
     If this policy changes, the updated version will be published at this same
-    address with a revised date above. Any future version that introduces data
+    address, and in the receiver's source repository at
+    <a href="https://github.com/parl0v/ludusctrl/blob/main/PRIVACY.md">github.com/parl0v/ludusctrl</a>,
+    with a revised date above. Any future version that introduces data
     collection will say so explicitly.
   </p>
 
