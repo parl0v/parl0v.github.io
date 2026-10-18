@@ -1,0 +1,86 @@
+{
+  "6060": {
+    "summary": "Fixed a Windows regression on main that had made games compare whole memory snapshots byte by byte, up to 1.9 TB every 10 seconds. Sword of the Sea went from about 2 to 7.7–9.5 FPS, and other contributors confirmed big gains on NVIDIA and AMD across 9 games, including Astro Bot 0.42 → 2.89 FPS and 3.0 → 15.1 FPS.",
+    "detail": "An earlier change (#5596) made the game's main memory on Windows into private write-watched memory (GetWriteWatch, the Windows feature that reports which pages the CPU has written). After that, every host import, where Vulkan reads the game's memory in place instead of through a copy, fell back to comparing whole memory snapshots byte by byte, and Sword of the Sea dropped from 8.13 to 2.09 FPS. The fix adds a startup probe that checks whether the driver keeps write-watch working on imported memory, then settles each new import with a 4-byte GPU read on a second queue, so the driver's one-time page marks are cleared and the import stays watched without any comparisons. A fallback through another queue family covers AMD drivers that expose only one graphics queue. On my two boxes Sword of the Sea went from 3.0 to 9.5 FPS (RTX 3060) and from about 2.0 to 7.7 FPS (RTX 4060). Snapshot compares went from 1.5–6.2 million calls (0.5–1.9 TB) per 10 s down to 1, and the crash that the competing approach (#5851) hit in 2–3 of 10 boots never happened (0 of 10). Other contributors confirmed it on NVIDIA and AMD: Astro Bot 0.42 → 2.89 FPS (RX 9070 XT), 3.0 → 15.1 FPS (RTX 4090) and 1.4 → 3.5 FPS (RTX 3080 Ti); SuperTuxKart 4.5 → 7.5 FPS (RTX 3070 Laptop) and 5.1 → 7.2 FPS (Radeon 860M); ccleste about 75 → 113 FPS; Besiege 14 → 21 FPS (+50%); Ghost of Yōtei's first lit frame 80 s → 40 s; Minecraft Dungeons II from not reaching gameplay within 200 s to loading normally; and a RetroArch Flycast core from 75–78% to 89–90% of real-time speed. #5851 was closed in favour of this PR."
+  },
+  "6168": {
+    "summary": "Fixed a GPU memory leak that grew to 31.6 GB and crashed long sessions after 12–22 minutes. A 40-minute run now finishes with memory flat at about 10 GB.",
+    "detail": "The texture detiler, a GPU shader that converts the PS5's tiled texture layouts into normal linear ones, reset its Vulkan descriptor pools only when the command recorder went idle. A game running fast enough never goes idle, so a new pool was added every 64 detiles until Vulkan ran out of device memory. With #6060, Sword of the Sea climbed to about 31.6 GB and crashed after 12 and 22 minutes. Each pool now records the newest GPU batch that used it and is reset and reused once that batch has completed. A 40-minute run then finished with no crash (23,678 frames), and memory stayed flat at 10.0–10.4 GB. I reproduced the same crash with the alternative #5851, which showed the bug was already on main and only appeared once games ran faster. Others confirmed the new test fails on the old code (lavapipe on Linux, Radeon 680M) and passes on an RTX 5080, a Radeon iGPU and an RTX 4090."
+  },
+  "5281": {
+    "summary": "Replaced the most expensive GPU program on Sword of the Sea's title screen, a 16-instruction copy kernel costing about 11 ms a frame, with a direct buffer copy. Title FPS rose 3.8–4.5%.",
+    "detail": "The game runs a small 16-instruction compute kernel every frame just to copy 3 MiB of buffer data, and recompiling and running it as a shader cost about 11 ms of GPU time per frame on an RTX 4060. This adds an HLE (high-level emulation) path: the driver recognises that exact kernel word for word, checks that the buffer descriptors make it a bit-exact copy, and does a native GPU buffer copy instead. Anything it can't prove safe (bad alignment, short source, over 16 MiB, overlapping ranges) falls back to the shader. Title FPS went from 4.90 to 5.08 on an RTX 3060 and from 3.80 to 3.97 on an RTX 4060, GPU time per frame dropped from 94 to 86 ms and from 122 to 111 ms, and 1,431 kernel launches were replaced in a run with identical rendered frames. At the maintainer's request I added a test that refuses every single-bit change to the kernel and checks every destination word across nine dispatches."
+  },
+  "5046": {
+    "summary": "Linked every GPU batch in a performance trace to the CPU work that recorded it, which showed Sword of the Sea's 16 ms GPU batches came from only ~1.6 ms of CPU work.",
+    "detail": "Performance traces showed the GPU's command batches and the CPU's work separately, with nothing to say which CPU work recorded which GPU batch. Now each recorder batch gets an ID while a trace runs, the thread that opened it stamps the ID on every CPU slice it records, and the batch's GPU time ranges carry the same ID into the trace. On the Sword of the Sea main menu, 10,399 of 10,406 GPU slices and 299,401 of 301,361 CPU slices carried an ID. Joining on it showed the scene was GPU-bound, which pointed the performance work at the GPU side."
+  },
+  "5047": {
+    "summary": "Added a \"Largest GPU batches\" section to the project's trace summary tool, listing each heavy GPU batch next to the CPU work behind it.",
+    "detail": "Builds on #5046. tools/trace_digest.py now lists the longest GPU batches, their GPU time per command class and the CPU slices that recorded each one, in both its text and JSON output. On a Sword of the Sea main-menu trace it picks out the five 16 ms batches and the ~1.6 ms of dispatch work behind each. The maintainer ran it with 17 tests passing."
+  },
+  "5131": {
+    "summary": "Documented a crash inside NVIDIA's own shader compiler on Windows driver 610.47, so users know which driver to avoid.",
+    "detail": "An access violation in nvgpucomp64.dll on a driver thread, with no AnyPS5 code on that thread. On an RTX 3060, Sword of the Sea crashed at the same address in all three configurations I tried on 610.47 after 250–342 s. The same build on driver 617.42 ran the full 2,410 s, and RTX 4060 (616.56) and RTX 5070 Laptop (616.92) setups never hit it. The maintainer checked the note against the crash-report and pipeline code before merging."
+  },
+  "6873": {
+    "summary": "Documented how the texture cache budget is chosen and the APS5_TEXTURE_CACHE_MIB override, with a measured warning: forcing it too high on an 8 GB card cut FPS by about 26%.",
+    "detail": "The automatic texture cache budgets and the override had no user-facing description. The new section explains both, and includes a measurement from Minecraft Dungeons II on an 8 GB RTX 4060: forcing 3,072 MiB pushed about 870 MiB of textures into slower host memory and cut walking FPS from 6.07–6.48 to 4.46–4.83, compared with the automatic 1,797 MiB budget."
+  },
+  "6876": {
+    "summary": "Documented every field and command class of the [gputime] profiler line that performance PRs quote.",
+    "detail": "Performance PRs routinely quote the [gputime] line, but nothing explained what its fields mean or how they overlap (for example, that \"GPU time\" leaves out draws). This adds a section to the build docs covering every header field and every command class, with the function that opens each time range. Every statement was checked against the recorder code and each call site in 7 source files."
+  },
+  "3105": {
+    "summary": "Identified the unnamed PS5 function that stopped STAR WARS: Galactic Racer on an unresolved import (sceNpGetSandboxInfo), using nidhunt.",
+    "detail": "PS5 executables import functions by NID, an 11-character hash, instead of by name. ZVZ++68nNI8 in libSceNpManager had no name, so the game stopped on an unresolved import. I identified it as sceNpGetSandboxInfo with nidhunt and confirmed it with the repo's NID tools and the community database. The PR declares it so the import resolves and failures name the real function, and documents the call site without inventing behaviour. The maintainer verified the hash and the library's tests."
+  },
+  "3576": {
+    "summary": "Named a placeholder AGC graphics function (sceAgcDcbAtomicGds_0900) by its hash and removed a bogus extra export.",
+    "detail": "The libSceAgc export with NID zARR5aCmkoY sat under a placeholder name. I showed it hashes from sceAgcDcbAtomicGds_0900, the draw-command counterpart of an already named function, and renamed it. Removing the placeholder alias also removed a bogus export that matched no Sony module. The maintainer verified both hashes and ran the libSceAgc tests."
+  },
+  "3577": {
+    "summary": "Named an audio function that Ghost of Yōtei and Astro Bot import (sceAudioInIsPadEmbeddedMic) and fixed its signature.",
+    "detail": "The libSceAudioIn export X+4jdIS75P0 was an unnamed placeholder declared with no arguments. I named it by its hash and corrected the signature to take the audio handle, based on Ghost of Yōtei calling it right after sceAudioInOpen with that handle. The behaviour stays a stub, so no return value is invented, and a bogus extra export is gone. The maintainer verified the hash and ran the tests."
+  },
+  "2295": {
+    "summary": "Fixed a network test that failed on every run on Windows machines with a VPN or network filter installed. It now passes everywhere, and the full suite passed 507/507.",
+    "detail": "The test checks that a send fails once the peer has closed its socket, and allowed only 100 tries 1 ms apart. With a network filter driver installed (Cloudflare WARP, ProtonVPN), sends kept succeeding for about 19 s, so the test always failed. A plain Winsock program with no AnyPS5 code behaved the same, which showed the cause was the host, not the PS5 networking library. The test now leaves unread data in the socket before closing it, which makes TCP send a reset at once, so the next send fails on the first try whatever is installed. The check itself is unchanged."
+  },
+  "2334": {
+    "summary": "Removed two stale \"unknown signature\" entries that contradicted functions already implemented in an earlier PR.",
+    "detail": "The technical-debt file still listed sceHttp2GetMemoryPoolStats and sceNetGetMemoryPoolStats as unknown, even though #1119 had implemented and documented them. Docs only, no code changes."
+  },
+  "2301": {
+    "summary": "Gave real names to 12 placeholder libc functions (like _Mtx_lock and vsnprintf_s), so a crash in one now says which function is missing. The repo's count of unresolved names dropped from 22 to 10.",
+    "detail": "Twelve libc functions were exported as placeholders named libcCyberUnknown03–19. Using the repo's NID tools I matched each hash to its real name (_Mtx_lock, _Mtx_unlock, _Cnd_wait, _Cnd_broadcast, vsnprintf_s, vsscanf_s and others) and renamed them. Behaviour is unchanged. Dropping the placeholders also removed 12 bogus extra exports (libc.prx went from 1,483 to 1,471). The maintainer verified all 12 hashes, with 517/517 tests passing."
+  },
+  "2319": {
+    "summary": "Found the real name of a graphics function imported by all eight titles in a group of reports (sceAgcCreateInterpolantMapping_0100); it wasn't in any database.",
+    "detail": "sceAgcCreateInterpolantMapping was exported under an alias whose name doesn't hash to its NID. I found the real name by hashing the database's names with AGC version suffixes appended. Renaming it and its callers removed a bogus export no Sony module has. 259 related tests passed, another contributor verified it on Linux, and the maintainer checked the hash."
+  },
+  "7560": {
+    "summary": "In review. Shader recompiler pass that deletes 2,117 of 2,196 useless stores in Minecraft Dungeons II's hottest GPU program, shrinking it 11% and cutting the three hottest programs by 6–15%.",
+    "detail": "AMD GPUs support relative register addressing, which the shader recompiler emulates with a per-thread memory window, storing every register write in case a relative read needs it. Most of those stores could never be read, and they also blocked other optimisation passes. A new backward-liveness pass deletes the stores no later relative read can see, so the existing passes can clean up behind them. On an RTX 3060 the title went from 8.10 to 8.28 FPS, and the three hottest programs dropped from 7.9 to 7.0, 6.2 to 5.3 and 2.55 to 2.41 ms per frame. Frame captures matched main, and another contributor found no regressions on an Apple M2 Max."
+  },
+  "7461": {
+    "summary": "In review. Removes 59–80 unnecessary full GPU waits every 10 seconds (111–193 ms of stalls) on Minecraft Dungeons II's title screen.",
+    "detail": "DCC is AMD's colour compression, and its keys are small per-block metadata. When the driver read DCC keys under a unit shadow (the GPU-side copy of guest memory), it waited for every GPU batch in flight while holding the GPU lock. Now it waits only when a pending write actually overlaps the key bytes, and only up to that write. None of the old waits were needed (the keys read the same before and after). The title went from 8.11 to 8.22 FPS on a GPU-bound card, with no change on Sword of the Sea, and a new test fails with the old full wait."
+  },
+  "7427": {
+    "summary": "In review. Skips dead GPU write-backs that made up 90% of the pending bytes on Minecraft Dungeons II's title screen: about 60 GB → 14.7 GB per 10 seconds, +9.2–9.6% FPS.",
+    "detail": "Before refreshing a storage image, the driver wrote back every other image's pending GPU results in that memory. When the new image's compression metadata says it's just a fast clear (Unreal does this constantly with temporary textures), those write-backs are wasted work. The change hands those results over without writing them back, under strict conditions and exact rules for later reads, overwrites and CPU stores, with a test covering four orderings. Title FPS rose 9.6% on an RTX 4060 (3,072 MiB cache), 9.2% on an RTX 3060 and 3.0% on Sword of the Sea. It doesn't help gameplay scenes, where the hand-over never fires."
+  },
+  "6905": {
+    "summary": "In review. Makes detiling of 1- and 2-byte texture formats 2.2–6× faster by writing each 4-byte word once instead of with atomics per texel.",
+    "detail": "The detile shader moves one texel per GPU thread, so for small formats (R8, R16 and similar) 2–4 threads shared each 4-byte word and wrote it with atomic operations, running at 9–44 GB/s against 253 GB/s for 4-byte texels. New variants combine each word's texels in workgroup shared memory and write the word once, with the old path at edges so the output bytes are identical. On an RTX 4060, 1-byte buffer detiles got 6.0× faster (228.9 → 37.9 µs), 2-byte ones 2.6×, and 1-byte image retiles 2.2×. No current game is bound by these paths, so it claims no FPS gain. Other contributors confirmed the byte-exact test on an AMD Radeon 780M and an Apple M2 Max."
+  },
+  "6499": {
+    "summary": "In review. Keeps a GPU memory import alive when a game unmaps part of its range, cutting each re-import from about 500 ms to under 0.02 ms in a synthetic test; real-game gains not shown yet.",
+    "detail": "When a game protects or unmaps part of a large memory range, the guest memory manager rebuilt every piece of it, so the GPU import of the untouched remainder was thrown away and recreated, which costs hundreds of milliseconds with #6060's watched imports. This keeps an import whose head or tail was cut off and re-attaches it to the surviving range, using a backing serial to prove those pages were untouched. In a synthetic test of the pattern reported on Astro Bot, each re-import dropped from 472–560 ms to under 0.02 ms. Two testers saw no in-game gain on Astro Bot, and one found the game places guard pages in the middle of the range, which this version doesn't handle yet."
+  },
+  "6490": {
+    "summary": "In review. Writes GPU results straight into their final memory instead of copying them twice, halving write-back GPU time and adding 4.8–5.5% FPS; confirmed by AlxcBTW on an RTX 5070 Laptop.",
+    "detail": "A storage write-back copies GPU-written image results back into the game's memory layout. Each window was retiled into a scratch buffer and then copied into the unit-shadow slabs, so every byte was written twice, about 53.7 GB of extra copies per 10 s on Minecraft Dungeons II. Windows that meet strict alignment and coverage rules are now retiled straight into their slabs, and everything else keeps the old path. Write-back GPU time dropped about 45% (17.4 → 9.5 ms per frame on an RTX 3060, 14.8 → 8.3 ms on an RTX 4060), and title FPS rose 5.5% on Sword of the Sea and 4.8% on Minecraft Dungeons II. AlxcBTW confirmed it on an RTX 5070 Laptop: write-back time halved and the title gained about 4%."
+  }
+}

@@ -1,0 +1,35 @@
+# Josip Parlov (parl0v)
+
+> Self-taught developer from Croatia, writing code since I was 11. I build games, Android apps, browser extensions, websites for local businesses and low-level tools, and I contribute to AnyPS5, an open-source PS5 emulation project. On GitHub, LinkedIn and this site I go by parl0v.
+
+- Home: https://parl0v.github.io/
+- GitHub: https://github.com/parl0v
+- LinkedIn: https://www.linkedin.com/in/josipparlov
+- Email: josipparlov@protonmail.com
+- Languages: C++, C, Python, C#, Kotlin, JavaScript/TypeScript, Lua, PHP
+- Graphics and compute: Vulkan, OpenCL
+
+## Projects
+
+- [LudusCtrl](https://parl0v.github.io/ludusctrl/): Turns a phone into the Bluetooth adapter a PC is missing. The gamepad pairs with the phone, and its input reaches Windows over Wi-Fi as a virtual controller. Kotlin Android app, a Python receiver built on ViGEmBus ([source](https://github.com/parl0v/ludusctrl)), and a no-install browser client for iPhones. Started August 2026, in Google Play testing.
+- [FC Sniper](https://fc-sniper.com): Chrome extension for trading on the EA FC Ultimate Team transfer market. Started in 2018 as a Python screen reader I wrote at 12; now a Manifest V3 extension with its own licence-key system and checkout.
+- [nidhunt](https://github.com/parl0v/nidhunt): Recovers PS5 library function names from their hashes on the GPU. C and OpenCL, about 1.67 billion guesses a second on an RTX 4060. October 2026.
+- [HEAT](https://sbox.game/twoho/heat): Multiplayer street-crime sandbox for up to 8 players on s&box, written in C#. September 2026.
+- [s&terminal](https://sbox.game/twoho/s_terminal): Password-cracking puzzle game on s&box with three difficulties, 11 achievements and a leaderboard, written in C#. November 2025.
+- [Rivals Skins · Config Maker](https://parl0v.github.io/rivals-skins/): Browse Marvel Rivals skins and build a skin config file in the browser. React, TypeScript and Vite. February 2026.
+
+## Contributions
+
+- [AnyPS5 contributions](https://parl0v.github.io/anyps5/): Every pull request I've opened to [AnyPS5](https://github.com/boykopovar/AnyPS5), with what each one changed and measured; 15 merged and 6 open, refreshed daily. Mostly GPU performance and memory on Windows. Highlights: [#6060](https://github.com/boykopovar/AnyPS5/pull/6060) fixed a Windows regression that compared up to 1.9 TB of memory every 10 seconds, taking Sword of the Sea from about 2 to 7.7–9.5 FPS, with gains confirmed across 9 games on NVIDIA and AMD; [#6168](https://github.com/boykopovar/AnyPS5/pull/6168) fixed a GPU memory leak that grew to 31.6 GB and crashed sessions after 12–22 minutes.
+- [sce_symbols](https://github.com/zecoxao/sce_symbols): The shared database of PS5 library names. I added 140+ names recovered with nidhunt.
+
+## Client websites
+
+- [KrimsonProducts](https://krimsonproducts.com): Storefront for a gaming software shop, built from scratch with a live product status board and an admin backend. July 2026.
+- [NIKA 1](https://nika1-yacht.com): Website for a yacht charter, with an enquiry form, analytics, cookie consent and a privacy policy. June 2026.
+- [Frizerski salon Ruža](https://frizerskisalonruza.hr): Website for a hair salon in Croatia. May 2026.
+
+## Optional
+
+- [Filozofski izazov](https://parl0v.github.io/filozofija-projekt/): A philosophy quiz game for a school project, in Croatian. May 2025.
+- [KUKU$ · The Lost Files](https://parl0v.github.io/kukus-tlf/): A web player archiving KUKU$'s album The Lost Files. October 2023.
