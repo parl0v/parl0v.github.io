@@ -20,7 +20,7 @@
 
 ## Contributions
 
-- [AnyPS5 contributions](https://parl0v.github.io/anyps5/): Every pull request I've opened to [AnyPS5](https://github.com/boykopovar/AnyPS5), with what each one changed and measured; 15 merged and 6 open, refreshed daily. Mostly GPU performance and memory on Windows. Highlights: [#6060](https://github.com/boykopovar/AnyPS5/pull/6060) fixed a Windows regression that compared up to 1.9 TB of memory every 10 seconds, taking Sword of the Sea from about 2 to 7.7–9.5 FPS, with gains confirmed across 9 games on NVIDIA and AMD; [#6168](https://github.com/boykopovar/AnyPS5/pull/6168) fixed a GPU memory leak that grew to 31.6 GB and crashed sessions after 12–22 minutes.
+- [AnyPS5 contributions](https://parl0v.github.io/anyps5/): Every pull request I've opened to [AnyPS5](https://github.com/boykopovar/AnyPS5), with what each one changed and measured; 19 merged and 7 open, refreshed daily. Mostly GPU performance and memory on Windows. Highlights: [#6060](https://github.com/boykopovar/AnyPS5/pull/6060) fixed a Windows regression that compared up to 1.9 TB of memory every 10 seconds, taking Sword of the Sea from about 2 to 7.7–9.5 FPS, with gains confirmed across 9 games on NVIDIA and AMD; [#6168](https://github.com/boykopovar/AnyPS5/pull/6168) fixed a GPU memory leak that grew to 31.6 GB and crashed sessions after 12–22 minutes.
 - [sce_symbols](https://github.com/zecoxao/sce_symbols): The shared database of PS5 library names. I added 140+ names recovered with nidhunt.
 
 ## Client websites
