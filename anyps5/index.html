@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AnyPS5 contributions · Josip Parlov (parl0v)</title>
-  <meta name="description" content="Pull requests by Josip Parlov (parl0v) to AnyPS5: 24 merged, 5 open. Mostly GPU performance and memory on Windows." />
+  <meta name="description" content="Pull requests by Josip Parlov (parl0v) to AnyPS5: 28 merged, 1 open. Mostly GPU performance and memory on Windows." />
   <link rel="canonical" href="https://parl0v.github.io/anyps5/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -133,8 +133,8 @@
   <h1>AnyPS5 contributions</h1>
   <p class="intro"><a href="https://github.com/boykopovar/AnyPS5">AnyPS5</a> turns PS5 games into native Windows and Linux programs. My pull requests are mostly about GPU performance and memory on Windows, plus a few tools and docs. Contributing since 9 Oct 2026.</p>
   <div class="stats">
-    <div class="stat"><b>24</b><span>merged</span></div>
-    <div class="stat"><b>5</b><span>open</span></div>
+    <div class="stat"><b>28</b><span>merged</span></div>
+    <div class="stat"><b>1</b><span>open</span></div>
   </div>
 
   <h2>Merged</h2>
@@ -155,9 +155,25 @@
         <details><summary>Details</summary><p>The game runs a small 16-instruction compute kernel every frame just to copy 3 MiB of buffer data, and recompiling and running it as a shader cost about 11 ms of GPU time per frame on an RTX 4060. This adds an HLE (high-level emulation) path: the driver recognises that exact kernel word for word, checks that the buffer descriptors make it a bit-exact copy, and does a native GPU buffer copy instead. Anything it can&#x27;t prove safe (bad alignment, short source, over 16 MiB, overlapping ranges) falls back to the shader. Title FPS went from 4.90 to 5.08 on an RTX 3060 and from 3.80 to 3.97 on an RTX 4060, GPU time per frame dropped from 94 to 86 ms and from 122 to 111 ms, and 1,431 kernel launches were replaced in a run with identical rendered frames. At the maintainer&#x27;s request I added a test that refuses every single-bit change to the kernel and checks every destination word across nine dispatches.</p></details>
       </li>
       <li>
+        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/7427"><span class="num">#7427</span> perf(agc): hand pending results over to an image whose DCC keys are a clear code</a><span class="date">20 Oct 2026</span></div>
+        <p class="desc">In review. Skips dead GPU write-backs that made up 90% of the pending bytes on Minecraft Dungeons II&#x27;s title screen: about 60 GB → 14.7 GB per 10 seconds, +9.2–9.6% FPS.</p>
+        <details><summary>Details</summary><p>Before refreshing a storage image, the driver wrote back every other image&#x27;s pending GPU results in that memory. When the new image&#x27;s compression metadata says it&#x27;s just a fast clear (Unreal does this constantly with temporary textures), those write-backs are wasted work. The change hands those results over without writing them back, under strict conditions and exact rules for later reads, overwrites and CPU stores, with a test covering four orderings. Title FPS rose 9.6% on an RTX 4060 (3,072 MiB cache), 9.2% on an RTX 3060 and 3.0% on Sword of the Sea. It doesn&#x27;t help gameplay scenes, where the hand-over never fires.</p></details>
+      </li>
+      <li>
         <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/6490"><span class="num">#6490</span> perf(agc): retile storage write-back windows straight into their unit-shadow slabs</a><span class="date">19 Oct 2026</span></div>
         <p class="desc">In review. Writes GPU results straight into their final memory instead of copying them twice, halving write-back GPU time and adding 4.8–5.5% FPS; confirmed by <a href="https://github.com/AlxcBTW">AlxcBTW</a> on an RTX 5070 Laptop.</p>
         <details><summary>Details</summary><p>A storage write-back copies GPU-written image results back into the game&#x27;s memory layout. Each window was retiled into a scratch buffer and then copied into the unit-shadow slabs, so every byte was written twice, about 53.7 GB of extra copies per 10 s on Minecraft Dungeons II. Windows that meet strict alignment and coverage rules are now retiled straight into their slabs, and everything else keeps the old path. Write-back GPU time dropped about 45% (17.4 → 9.5 ms per frame on an RTX 3060, 14.8 → 8.3 ms on an RTX 4060), and title FPS rose 5.5% on Sword of the Sea and 4.8% on Minecraft Dungeons II. <a href="https://github.com/AlxcBTW">AlxcBTW</a> confirmed it on an RTX 5070 Laptop: write-back time halved and the title gained about 4%.</p></details>
+      </li>
+      <li>
+        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/7560"><span class="num">#7560</span> perf(shader): drop window stores no relative read can see</a><span class="date">20 Oct 2026</span></div>
+        <p class="desc">In review. Shader recompiler pass that deletes 2,117 of 2,196 useless stores in Minecraft Dungeons II&#x27;s hottest GPU program, shrinking it 11% and cutting the three hottest programs by 6–15%.</p>
+        <details><summary>Details</summary><p>AMD GPUs support relative register addressing, which the shader recompiler emulates with a per-thread memory window, storing every register write in case a relative read needs it. Most of those stores could never be read, and they also blocked other optimisation passes. A new backward-liveness pass deletes the stores no later relative read can see, so the existing passes can clean up behind them. On an RTX 3060 the title went from 8.10 to 8.28 FPS, and the three hottest programs dropped from 7.9 to 7.0, 6.2 to 5.3 and 2.55 to 2.41 ms per frame. Frame captures matched main, and another contributor found no regressions on an Apple M2 Max.</p></details>
+      </li>
+      <li>
+        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/7862"><span class="num">#7862</span> fix(agc): reserve only the sampled textures alive from the storage image budget</a><span class="date">20 Oct 2026</span></div>
+      </li>
+      <li>
+        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/7834"><span class="num">#7834</span> fix(tools): strip the NID disambiguation suffix from declared names</a><span class="date">20 Oct 2026</span></div>
       </li>
       <li>
         <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/7820"><span class="num">#7820</span> fix(tools): keep p_align for segments unwrap_self copies outside load segments</a><span class="date">20 Oct 2026</span></div>
@@ -252,29 +268,13 @@
   <h2>Open</h2>
   <ul class="open">
       <li>
-        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/7427"><span class="num">#7427</span> perf(agc): hand pending results over to an image whose DCC keys are a clear code</a><span class="date">18 Oct 2026</span></div>
-        <p class="desc">In review. Skips dead GPU write-backs that made up 90% of the pending bytes on Minecraft Dungeons II&#x27;s title screen: about 60 GB → 14.7 GB per 10 seconds, +9.2–9.6% FPS.</p>
-        <details><summary>Details</summary><p>Before refreshing a storage image, the driver wrote back every other image&#x27;s pending GPU results in that memory. When the new image&#x27;s compression metadata says it&#x27;s just a fast clear (Unreal does this constantly with temporary textures), those write-backs are wasted work. The change hands those results over without writing them back, under strict conditions and exact rules for later reads, overwrites and CPU stores, with a test covering four orderings. Title FPS rose 9.6% on an RTX 4060 (3,072 MiB cache), 9.2% on an RTX 3060 and 3.0% on Sword of the Sea. It doesn&#x27;t help gameplay scenes, where the hand-over never fires.</p></details>
-      </li>
-      <li>
-        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/7560"><span class="num">#7560</span> perf(shader): drop window stores no relative read can see</a><span class="date">18 Oct 2026</span></div>
-        <p class="desc">In review. Shader recompiler pass that deletes 2,117 of 2,196 useless stores in Minecraft Dungeons II&#x27;s hottest GPU program, shrinking it 11% and cutting the three hottest programs by 6–15%.</p>
-        <details><summary>Details</summary><p>AMD GPUs support relative register addressing, which the shader recompiler emulates with a per-thread memory window, storing every register write in case a relative read needs it. Most of those stores could never be read, and they also blocked other optimisation passes. A new backward-liveness pass deletes the stores no later relative read can see, so the existing passes can clean up behind them. On an RTX 3060 the title went from 8.10 to 8.28 FPS, and the three hottest programs dropped from 7.9 to 7.0, 6.2 to 5.3 and 2.55 to 2.41 ms per frame. Frame captures matched main, and another contributor found no regressions on an Apple M2 Max.</p></details>
-      </li>
-      <li>
-        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/7862"><span class="num">#7862</span> fix(agc): reserve only the sampled textures alive from the storage image budget</a><span class="date">19 Oct 2026</span></div>
-      </li>
-      <li>
-        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/7834"><span class="num">#7834</span> fix(tools): strip the NID disambiguation suffix from declared names</a><span class="date">19 Oct 2026</span></div>
-      </li>
-      <li>
         <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/6905"><span class="num">#6905</span> perf(agc): store whole words of 1- and 2-byte texels in the detile shader</a><span class="date">16 Oct 2026</span></div>
         <p class="desc">In review. Makes detiling of 1- and 2-byte texture formats 2.2–6× faster by writing each 4-byte word once instead of with atomics per texel.</p>
         <details><summary>Details</summary><p>The detile shader moves one texel per GPU thread, so for small formats (R8, R16 and similar) 2–4 threads shared each 4-byte word and wrote it with atomic operations, running at 9–44 GB/s against 253 GB/s for 4-byte texels. New variants combine each word&#x27;s texels in workgroup shared memory and write the word once, with the old path at edges so the output bytes are identical. On an RTX 4060, 1-byte buffer detiles got 6.0× faster (228.9 → 37.9 µs), 2-byte ones 2.6×, and 1-byte image retiles 2.2×. No current game is bound by these paths, so it claims no FPS gain. Other contributors confirmed the byte-exact test on an AMD Radeon 780M and an Apple M2 Max.</p></details>
       </li>
   </ul>
 
-  <footer><p><a href="https://github.com/boykopovar/AnyPS5/pulls?q=is%3Apr%20author%3Aparl0v">All of my pull requests on GitHub</a></p><p class="updated">Updated 20 Oct 2026 from the GitHub API.</p></footer>
+  <footer><p><a href="https://github.com/boykopovar/AnyPS5/pulls?q=is%3Apr%20author%3Aparl0v">All of my pull requests on GitHub</a></p><p class="updated">Updated 21 Oct 2026 from the GitHub API.</p></footer>
   <script src="../motion.js" defer></script>
 </body>
 </html>
