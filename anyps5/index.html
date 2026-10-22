@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AnyPS5 contributions · Josip Parlov (parl0v)</title>
-  <meta name="description" content="Pull requests by Josip Parlov (parl0v) to AnyPS5: 28 merged, 1 open. Mostly GPU performance and memory on Windows." />
+  <meta name="description" content="Pull requests by Josip Parlov (parl0v) to AnyPS5: 28 merged, 2 open. Mostly GPU performance and memory on Windows." />
   <link rel="canonical" href="https://parl0v.github.io/anyps5/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -134,7 +134,7 @@
   <p class="intro"><a href="https://github.com/boykopovar/AnyPS5">AnyPS5</a> turns PS5 games into native Windows and Linux programs. My pull requests are mostly about GPU performance and memory on Windows, plus a few tools and docs. Contributing since 9 Oct 2026.</p>
   <div class="stats">
     <div class="stat"><b>28</b><span>merged</span></div>
-    <div class="stat"><b>1</b><span>open</span></div>
+    <div class="stat"><b>2</b><span>open</span></div>
   </div>
 
   <h2>Merged</h2>
@@ -268,13 +268,16 @@
   <h2>Open</h2>
   <ul class="open">
       <li>
+        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/9400"><span class="num">#9400</span> perf(agc): wait for a storage refresh&#x27;s pending writer before taking the GPU mutex</a><span class="date">21 Oct 2026</span></div>
+      </li>
+      <li>
         <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/6905"><span class="num">#6905</span> perf(agc): store whole words of 1- and 2-byte texels in the detile shader</a><span class="date">16 Oct 2026</span></div>
         <p class="desc">In review. Makes detiling of 1- and 2-byte texture formats 2.2–6× faster by writing each 4-byte word once instead of with atomics per texel.</p>
         <details><summary>Details</summary><p>The detile shader moves one texel per GPU thread, so for small formats (R8, R16 and similar) 2–4 threads shared each 4-byte word and wrote it with atomic operations, running at 9–44 GB/s against 253 GB/s for 4-byte texels. New variants combine each word&#x27;s texels in workgroup shared memory and write the word once, with the old path at edges so the output bytes are identical. On an RTX 4060, 1-byte buffer detiles got 6.0× faster (228.9 → 37.9 µs), 2-byte ones 2.6×, and 1-byte image retiles 2.2×. No current game is bound by these paths, so it claims no FPS gain. Other contributors confirmed the byte-exact test on an AMD Radeon 780M and an Apple M2 Max.</p></details>
       </li>
   </ul>
 
-  <footer><p><a href="https://github.com/boykopovar/AnyPS5/pulls?q=is%3Apr%20author%3Aparl0v">All of my pull requests on GitHub</a></p><p class="updated">Updated 21 Oct 2026 from the GitHub API.</p></footer>
+  <footer><p><a href="https://github.com/boykopovar/AnyPS5/pulls?q=is%3Apr%20author%3Aparl0v">All of my pull requests on GitHub</a></p><p class="updated">Updated 22 Oct 2026 from the GitHub API.</p></footer>
   <script src="../motion.js" defer></script>
 </body>
 </html>
