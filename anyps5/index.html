@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AnyPS5 contributions · Josip Parlov (parl0v)</title>
-  <meta name="description" content="Pull requests by Josip Parlov (parl0v) to AnyPS5: 28 merged, 3 open. Mostly GPU performance and memory on Windows." />
+  <meta name="description" content="Pull requests by Josip Parlov (parl0v) to AnyPS5: 30 merged, 2 open. Mostly GPU performance and memory on Windows." />
   <link rel="canonical" href="https://parl0v.github.io/anyps5/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -133,8 +133,8 @@
   <h1>AnyPS5 contributions</h1>
   <p class="intro"><a href="https://github.com/boykopovar/AnyPS5">AnyPS5</a> turns PS5 games into native Windows and Linux programs. My pull requests are mostly about GPU performance and memory on Windows, plus a few tools and docs. Contributing since 9 Oct 2026.</p>
   <div class="stats">
-    <div class="stat"><b>28</b><span>merged</span></div>
-    <div class="stat"><b>3</b><span>open</span></div>
+    <div class="stat"><b>30</b><span>merged</span></div>
+    <div class="stat"><b>2</b><span>open</span></div>
   </div>
 
   <h2>Merged</h2>
@@ -168,6 +168,12 @@
         <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/7560"><span class="num">#7560</span> perf(shader): drop window stores no relative read can see</a><span class="date">20 Oct 2026</span></div>
         <p class="desc">In review. Shader recompiler pass that deletes 2,117 of 2,196 useless stores in Minecraft Dungeons II&#x27;s hottest GPU program, shrinking it 11% and cutting the three hottest programs by 6–15%.</p>
         <details><summary>Details</summary><p>AMD GPUs support relative register addressing, which the shader recompiler emulates with a per-thread memory window, storing every register write in case a relative read needs it. Most of those stores could never be read, and they also blocked other optimisation passes. A new backward-liveness pass deletes the stores no later relative read can see, so the existing passes can clean up behind them. On an RTX 3060 the title went from 8.10 to 8.28 FPS, and the three hottest programs dropped from 7.9 to 7.0, 6.2 to 5.3 and 2.55 to 2.41 ms per frame. Frame captures matched main, and another contributor found no regressions on an Apple M2 Max.</p></details>
+      </li>
+      <li>
+        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/11243"><span class="num">#11243</span> fix(libSceNet): read an option of a libkernel socket through sceNetGetsockopt</a><span class="date">26 Oct 2026</span></div>
+      </li>
+      <li>
+        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/11242"><span class="num">#11242</span> fix(libSceNet): register libkernel sockets with sceNetEpollControl</a><span class="date">26 Oct 2026</span></div>
       </li>
       <li>
         <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/7862"><span class="num">#7862</span> fix(agc): reserve only the sampled textures alive from the storage image budget</a><span class="date">20 Oct 2026</span></div>
@@ -268,10 +274,7 @@
   <h2>Open</h2>
   <ul class="open">
       <li>
-        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/11243"><span class="num">#11243</span> fix(libSceNet): read an option of a libkernel socket through sceNetGetsockopt</a><span class="date">25 Oct 2026</span></div>
-      </li>
-      <li>
-        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/11242"><span class="num">#11242</span> fix(libSceNet): register libkernel sockets with sceNetEpollControl</a><span class="date">25 Oct 2026</span></div>
+        <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/11490"><span class="num">#11490</span> fix(shader): select an f32 add or sub NaN result once</a><span class="date">26 Oct 2026</span></div>
       </li>
       <li>
         <div class="row"><a class="name" href="https://github.com/boykopovar/AnyPS5/pull/6905"><span class="num">#6905</span> perf(agc): store whole words of 1- and 2-byte texels in the detile shader</a><span class="date">16 Oct 2026</span></div>
@@ -280,7 +283,7 @@
       </li>
   </ul>
 
-  <footer><p><a href="https://github.com/boykopovar/AnyPS5/pulls?q=is%3Apr%20author%3Aparl0v">All of my pull requests on GitHub</a></p><p class="updated">Updated 26 Oct 2026 from the GitHub API.</p></footer>
+  <footer><p><a href="https://github.com/boykopovar/AnyPS5/pulls?q=is%3Apr%20author%3Aparl0v">All of my pull requests on GitHub</a></p><p class="updated">Updated 27 Oct 2026 from the GitHub API.</p></footer>
   <script src="../motion.js" defer></script>
 </body>
 </html>
